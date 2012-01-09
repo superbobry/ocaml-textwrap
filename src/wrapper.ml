@@ -14,8 +14,7 @@ type t = { width : int;
 (* A simple regex that just split on recognized spaces. E. g.
        "Hello there -- you goof-ball, use the -b option!"
    splits into
-       Hello/ /there/ /--/ /you/ /goof-ball,/ /use/ /the/ /-b/ /option!/
-*)
+       Hello/ /there/ /--/ /you/ /goof-ball,/ /use/ /the/ /-b/ /option!/ *)
 let wordsep_simple_re = Str.regexp "[\r\n\t ]+"
 
 and whitespace_re = Str.regexp "\t\n\x0b\x0c\r"
@@ -91,15 +90,15 @@ and handle_long_word w chunks cur_line cur_len width =
     | chunks ->
       (cur_line, cur_len, chunks)
 
-(* Wrap a sequence of text chunks and return a list of lines of
-   length [w.width] or less.  (If [break_long_words] is false,
-   some lines may be longer than this.)  Chunks correspond
-   to words and the whitespace between them: each chunk is
-   indivisible (modulo [break_long_words]), but a line break can
-   come between any two chunks.  Chunks should not have internal
-   whitespace; ie. a chunk is either all whitespace or a "word".
-   Whitespace chunks will be removed from the beginning and end of
-   lines, but apart from that whitespace is preserved. *)
+(** Wrap a sequence of text chunks and return a list of lines of
+    length [w.width] or less.  (If [break_long_words] is false,
+    some lines may be longer than this.)  Chunks correspond
+    to words and the whitespace between them: each chunk is
+    indivisible (modulo [break_long_words]), but a line break can
+    come between any two chunks.  Chunks should not have internal
+    whitespace; ie. a chunk is either all whitespace or a "word".
+    Whitespace chunks will be removed from the beginning and end of
+    lines, but apart from that whitespace is preserved. *)
 let wrap_chunks w =
   let is_whitespace = function
     | "" -> true
@@ -163,7 +162,9 @@ let wrap_chunks w =
   in inner []
 
 
-(* Public API *)
+(* +------------+
+   | Public API |
+   +------------+ *)
 
 let make
     ?(initial_indent="")
