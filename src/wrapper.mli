@@ -1,3 +1,5 @@
+(** Text wrapping and filling for OCaml. *)
+
 type t = { width : int;
            initial_indent : string;
            subsequent_indent : string;

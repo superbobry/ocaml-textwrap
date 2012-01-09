@@ -1,7 +1,7 @@
 OASISFormat: 0.2
 Name:        textwrap
 Version:     0.1
-Synopsis:    Text wrapping and filling.
+Synopsis:    Text wrapping and filling for OCaml.
 Authors:     Sergei Lebedev <superbobry@gmail.com>
 License:     MIT
 Plugins:     DevFiles (0.2), META (0.2)
