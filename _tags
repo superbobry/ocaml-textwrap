@@ -1,0 +1,19 @@
+# OASIS_START
+# DO NOT EDIT (digest: aafa405f4feaaf03d5febf4ea8d1f387)
+# Library textwrap
+"src": include
+<src/textwrap.{cma,cmxa}>: oasis_library_textwrap_byte
+<src/*.ml{,i}>: oasis_library_textwrap_byte
+<src/textwrap.{cma,cmxa}>: oasis_library_textwrap_native
+<src/*.ml{,i}>: oasis_library_textwrap_native
+<src/*.ml{,i}>: pkg_str
+# Executable hello
+"examples/hello.byte": oasis_executable_hello_byte
+<examples/*.ml{,i}>: oasis_executable_hello_byte
+"examples/hello.byte": oasis_executable_hello_native
+<examples/*.ml{,i}>: oasis_executable_hello_native
+"examples/hello.byte": use_textwrap
+"examples/hello.byte": pkg_str
+<examples/*.ml{,i}>: use_textwrap
+<examples/*.ml{,i}>: pkg_str
+# OASIS_STOP

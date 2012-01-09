@@ -1,0 +1,10 @@
+# OASIS_START
+# DO NOT EDIT (digest: d0df54e2af97001400f4528719a6efa0)
+version = "0.1"
+description = "Text wrapping and filling."
+requires = "str"
+archive(byte) = "textwrap.cma"
+archive(native) = "textwrap.cmxa"
+exists_if = "textwrap.cma"
+# OASIS_STOP
+
