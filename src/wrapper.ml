@@ -82,13 +82,12 @@ and handle_long_word w chunks cur_line cur_len width =
   match chunks with
     | (chunk :: chunks) when w.break_long_words ->
       (String.sub chunk 0 space_left :: cur_line,
-       cur_len + 1,
        String.sub chunk space_left (String.length chunk - space_left)
          :: chunks)
     | (chunk :: chunks) when cur_line = [] ->
-      (chunk :: cur_line, cur_len + 1, chunks)
+      (chunk :: cur_line, chunks)
     | chunks ->
-      (cur_line, cur_len, chunks)
+      (cur_line, chunks)
 
 (** Wrap a sequence of text chunks and return a list of lines of
     length [w.width] or less.  (If [break_long_words] is false,
@@ -120,8 +119,9 @@ let wrap_chunks w =
 
   let rec current line len width = function
     | chunk :: chunks when String.length chunk + len <= width ->
-      current (chunk :: line) (len + 1) width chunks
-    | chunks -> (line, len, chunks)
+      current (chunk :: line) (len + String.length chunk) width chunks
+    | chunks ->
+      (line, len, chunks)
   in
 
   let rec inner lines = function
@@ -137,28 +137,27 @@ let wrap_chunks w =
 
       (* First chunk on line is whitespace -- drop it, unless this
          is the very beginning of the text. *)
-      let (cur_line, cur_len, chunks) =
-        current [] 0 width (pre_drop_whitespace lines chunks)
-      in
+      let chunks = pre_drop_whitespace lines chunks in
+
+      (* Fill current line with chunks to fit maximum width. *)
+      let (cur_line, cur_len, chunks) = current [] 0 width chunks in
 
       (* The current line is full, and the next chunk is too big to
          fit on *any* line (not just this one). *)
-      let (cur_line, _cur_len, chunks) =
+      let (cur_line, chunks) =
         if chunks <> [] && String.length (List.hd chunks) > width then
           handle_long_word w chunks cur_line cur_len width
         else
-          (cur_line, cur_len, chunks)
+          (cur_line, chunks)
       in
 
       (* If the last chunk on this line is all whitespace -- drop it! *)
-      let cur_line = post_drop_whitespace cur_line in
-
-      if cur_line <> [] then
-        inner
-          ((indent ^ String.concat "" (List.rev cur_line)) :: lines)
-          chunks
-      else
-        inner lines chunks
+      match post_drop_whitespace cur_line with
+        | [] -> inner lines chunks
+        | cur_line ->
+          inner
+            ((indent ^ String.concat "" (List.rev cur_line)) :: lines)
+            chunks
   in inner []
 
 
