@@ -41,8 +41,12 @@ let munge_whitespace { expand_tabs; replace_whitespace; _ } text =
 
     TODO(superbobry): add support for [break_on_hyphens], see
     http://hg.python.org/cpython/file/ca2a35140e6a/Lib/textwrap.py#l75 *)
-and split _w =
-  Str.split wordsep_simple_re
+and split _w s =
+  let res = Str.full_split wordsep_simple_re s in
+  List.map (function
+    | Str.Delim _ -> " "
+    | Str.Text t  -> t
+  ) res
 
 (** Correct sentence endings buried in [chunks].  Eg. when the
     original text contains "... foo.\nBar ...", munge_whitespace()
