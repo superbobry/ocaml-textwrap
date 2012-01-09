@@ -99,6 +99,24 @@ and handle_long_word w chunks cur_line cur_len width =
    Whitespace chunks will be removed from the beginning and end of
    lines, but apart from that whitespace is preserved. *)
 let wrap_chunks w =
+  let is_whitespace = function
+    | "" -> true
+    | s  -> Str.string_match wordsep_simple_re s 0
+  in
+
+  let pre_drop_whitespace lines = function
+    | (chunk :: chunks) when
+        w.drop_whitespace && lines <> [] && is_whitespace chunk ->
+      chunks
+    | chunks -> chunks
+  in
+
+  let post_drop_whitespace = function
+    | (chunk :: line) when
+        w.drop_whitespace && is_whitespace chunk -> line
+    | line -> line
+  in
+
   let rec current line len width = function
     | chunk :: chunks when String.length chunk + len <= width ->
       current (chunk :: line) (len + 1) width chunks
@@ -113,10 +131,14 @@ let wrap_chunks w =
         | _  -> w.subsequent_indent
       in
 
-      (* TODO(superbobyr): respect [drop_whitespace]. *)
-
+      (* Maximum width for the line, being built. *)
       let width = w.width - String.length indent in
-      let (cur_line, cur_len, chunks) = current [] 0 width chunks in
+
+      (* First chunk on line is whitespace -- drop it, unless this
+         is the very beginning of the text. *)
+      let (cur_line, cur_len, chunks) =
+        current [] 0 width (pre_drop_whitespace lines chunks)
+      in
 
       (* The current line is full, and the next chunk is too big to
          fit on *any* line (not just this one). *)
@@ -126,6 +148,9 @@ let wrap_chunks w =
         else
           (cur_line, cur_len, chunks)
       in
+
+      (* If the last chunk on this line is all whitespace -- drop it! *)
+      let cur_line = post_drop_whitespace cur_line in
 
       if cur_line <> [] then
         inner
