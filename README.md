@@ -1,7 +1,7 @@
 textwrap
 ========
 
-An incomplete port of Python's [textwrap](docs.python.org/library/textwrap)
+An incomplete port of Python's [textwrap] [1]
 library to OCaml. What's in the box?
 
     # let w = Wrapper.make 4 in
@@ -34,3 +34,14 @@ of wrapping:
 |                      |         | longer that 'width'.                               |
 | drop_whitespace      | true    | drop leading and trailing whitespace from lines.   |
 ```
+
+Missing features
+----------------
+
+The only feature OCaml version is missing from the original [textwrap] [1]
+is [`break_on_hyphens`] [2], which requires a decent regex engine to
+implement; unfortunately, this is not the case for [`Str`] [3].
+
+[1]: http://docs.python.org/library/textwrap
+[2]: http://hg.python.org/cpython/file/ca2a35140e6a/Lib/textwrap.py#l75
+[3]: http://caml.inria.fr/pub/docs/manual-ocaml/libref/Str.html
