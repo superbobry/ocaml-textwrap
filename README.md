@@ -2,7 +2,21 @@ textwrap
 ========
 
 An almost complete port of Python's [textwrap] [1] library to OCaml.
-What's in the box?
+
+Installation
+------------
+
+Just the usual [OASIS](http://oasis.forge.ocamlcore.org/) routines --
+follow the white rabbit:
+
+    $ ocaml setup.ml -configure
+    $ ocaml setup.ml -build
+    $ ocaml setup.ml -install
+
+Example
+-------
+
+So, what's in the box?
 
     # let w = Wrapper.make 4 in
       print_endline (Wrapper.fill w "Hello world!");;
