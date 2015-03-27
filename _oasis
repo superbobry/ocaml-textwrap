@@ -11,15 +11,15 @@ Executable hello
   Path:         examples
   MainIs:       hello.ml
   BuildDepends: textwrap, str
-  NativeOpt:    -w @a
-  ByteOpt:      -w @a
+  NativeOpt:    -w @1..49
+  ByteOpt:      -w @1..49
 
 Library textwrap
   Path:         src
   BuildDepends: str
   Modules:      Wrapper
-  NativeOpt:    -w @a
-  ByteOpt:      -w @a
+  NativeOpt:    -w @1..49
+  ByteOpt:      -w @1..49
 
 SourceRepository "GitHub"
   Type:     git
