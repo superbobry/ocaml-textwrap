@@ -1,15 +1,16 @@
 (** Text wrapping and filling for OCaml. *)
 
-type t = { width : int;
-           initial_indent : string;
-           subsequent_indent : string;
-           expand_tabs : bool;
-           replace_whitespace : bool;
-           fix_sentence_endings : bool;
-           break_long_words : bool;
-           break_on_hyphens : bool;
-           drop_whitespace : bool
-         }
+type t = {
+  width : int;
+  initial_indent : string;
+  subsequent_indent : string;
+  expand_tabs : bool;
+  replace_whitespace : bool;
+  fix_sentence_endings : bool;
+  break_long_words : bool;
+  break_on_hyphens : bool;
+  drop_whitespace : bool
+}
 
 (* A simple regex that just split on recognized spaces. E. g.
        "Hello there -- you goof-ball, use the -b option!"
@@ -82,8 +83,7 @@ and handle_long_word w chunks cur_line cur_len width =
   match chunks with
     | (chunk :: chunks) when w.break_long_words ->
       (String.sub chunk 0 space_left :: cur_line,
-       String.sub chunk space_left (String.length chunk - space_left)
-         :: chunks)
+       String.sub chunk space_left (String.length chunk - space_left) :: chunks)
     | (chunk :: chunks) when cur_line = [] ->
       (chunk :: cur_line, chunks)
     | chunks ->
