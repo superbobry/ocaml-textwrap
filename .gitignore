@@ -1,6 +1,3 @@
 _build
-*.byte
-*.native
-*.ba*
-*.log
-*.data
+.merlin
+*.install
