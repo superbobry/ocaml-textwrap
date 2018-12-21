@@ -6,12 +6,18 @@ An almost complete port of Python's [textwrap] [1] library to OCaml.
 Installation
 ------------
 
-Just the usual [OASIS](http://oasis.forge.ocamlcore.org/) routines --
-follow the white rabbit:
+Install using the [Dune](https://dune.build) build tool:
 
-    $ ocaml setup.ml -configure
-    $ ocaml setup.ml -build
-    $ ocaml setup.ml -install
+    $ dune build
+    $ dune install
+
+or for immediate use:
+
+    $ dune utop
+
+Or using [opam 2.0](https://opam.ocaml.org):
+
+    $ opam install .
 
 Example
 -------
